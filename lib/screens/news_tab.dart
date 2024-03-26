@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/SourceResponse.dart';
+import 'package:news_app/screens/widgets/news_item.dart';
 import 'package:news_app/shared/network/remote/api_manager.dart';
 
 import 'widgets/source_item.dart';
@@ -55,8 +56,10 @@ class _NewsTabState extends State<NewsTab> {
 
               var articles = snapshot.data?.articles??[];
               return Expanded(
-                child: ListView.builder(itemBuilder: (context, index) {
-                  return Text(articles[index].title??"");
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: 12,),
+                  itemBuilder: (context, index) {
+                  return NewsItem(article:  articles[index]);
                 },
                 itemCount: articles.length,
                 ),

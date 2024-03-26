@@ -8,10 +8,11 @@ import 'package:news_app/shared/network/remote/endPoints.dart';
 import 'package:news_app/shared/styles/app_strings.dart';
 
 class ApiManager {
-  static Future<SourceResponse> getSources() async {
+  static Future<SourceResponse> getSources(String categoryID) async {
     Uri url = Uri.http(
       Constants.BASE_URL,
       EndPoints.sources,
+      {"category":categoryID}
     );
     http.Response response = await http
         .get(url, headers: {AppString.apikey: Constants.API_KEY_VALUE});
