@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/models/SourceResponse.dart';
 
 class SourceItem extends StatelessWidget {
@@ -20,7 +21,7 @@ class SourceItem extends StatelessWidget {
               : Colors.transparent),
       child: Text(
         source.name ?? "",
-        style: TextStyle(color: selected ? Colors.white : Colors.green),
+        style: GoogleFonts.poppins(color: selected ? Colors.white : Colors.green),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app/models/category_model.dart';
 import 'package:news_app/screens/widgets/category_item.dart';
 
@@ -14,9 +15,9 @@ class CategoriesTab extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          const Text(
+           Text(
             "Pick your category of interest",
-            style: TextStyle(
+            style: GoogleFonts.poppins(
               fontSize: 40,
             ),
           ),
