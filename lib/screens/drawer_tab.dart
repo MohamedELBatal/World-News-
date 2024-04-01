@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DrawerTab extends StatelessWidget {
   Function onClick;
@@ -18,10 +19,10 @@ class DrawerTab extends StatelessWidget {
           Container(
             height: 160,
             color: Colors.green,
-            child: const Center(
+            child:  Center(
                 child: Text(
-              "News App",
-              style: TextStyle(fontSize: 35, color: Colors.white),
+              "News App!",
+              style: GoogleFonts.poppins(fontSize: 35, color: Colors.white),
             )),
           ),
           const SizedBox(
@@ -31,15 +32,15 @@ class DrawerTab extends StatelessWidget {
             onTap: () {
               onClick(CategoryID);
             },
-            child: const Row(
+            child:  Row(
               children: [
-                Icon(Icons.category_outlined),
-                SizedBox(
+                const Icon(Icons.category_outlined),
+                const SizedBox(
                   width: 8,
                 ),
                 Text(
                   "Categories",
-                  style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(fontSize: 20, color: Colors.black,fontWeight: FontWeight.w500),
                 ),
               ],
             ),
@@ -51,15 +52,15 @@ class DrawerTab extends StatelessWidget {
             onTap: () {
               onClick(SettingsID);
             },
-            child: const Row(
+            child:  Row(
               children: [
-                Icon(Icons.settings),
-                SizedBox(
+                const Icon(Icons.settings),
+                const SizedBox(
                   width: 8,
                 ),
                 Text(
                   "Settings",
-                  style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.w500),
+                  style: GoogleFonts.poppins(fontSize: 20, color: Colors.black,fontWeight: FontWeight.w500),
                 ),
               ],
             ),

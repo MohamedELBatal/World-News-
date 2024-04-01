@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 class CategoryModel {
   String id;
-
   String title;
-
   String image;
-
   Color color;
 
   CategoryModel(this.id, this.title, this.image, this.color);
