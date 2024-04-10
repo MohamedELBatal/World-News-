@@ -5,6 +5,7 @@ import 'package:news_app/screens/data_tab.dart';
 import 'package:news_app/screens/drawer_tab.dart';
 import 'package:news_app/screens/setting_tab.dart';
 import 'package:news_app/screens/widgets/categories_tab.dart';
+import 'package:news_app/screens/widgets/custom_search_delegate.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "Home";
@@ -103,9 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
             size: 30,
           ),
           onPressed: () {
-            setState(() {
-              _isSearching = true;
-            });
+            showSearch(
+              context: context,
+              delegate: CustomSearch(),
+            );
           },
         ),
       ];
