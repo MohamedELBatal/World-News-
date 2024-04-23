@@ -132,11 +132,11 @@ class _HomeScreenState extends State<HomeScreen> {
         fillColor: Colors.white,
         hintText: 'Search Article',
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: 10),
+          borderSide: BorderSide(color: Colors.white, width: 10),
         ),
-        hintStyle: TextStyle(color: Colors.black),
+        hintStyle: TextStyle(color: Colors.white),
       ),
-      style: const TextStyle(color: Colors.black, fontSize: 16.0),
+      style: const TextStyle(color: Colors.white, fontSize: 16.0),
       onChanged: (value) {},
     );
   }

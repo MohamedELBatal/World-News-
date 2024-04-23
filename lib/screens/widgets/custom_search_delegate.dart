@@ -1,44 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/screens/widgets/news_item.dart';
+import 'package:news_app/shared/network/remote/api_manager.dart';
 
 class CustomSearch extends SearchDelegate {
-  List<String> fruitList = [
-    'Apple',
-    'Banana',
-    'Peach',
-    'Avocado',
-    'Orange',
-    'Pear',
-    'Watermelon',
-    'pineapple',
-  ];
-
-  // Adapt buildSuggestions to avoid duplicate logic
   @override
   Widget buildSuggestions(BuildContext context) {
-    // Leverage the filtering logic from buildResults
-    return buildResults(context);
+    if(query.isNotEmpty){
+      return FutureBuilder(
+        future: ApiManager.SearchArticles(query),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text("SomeThing Went Wrong");
+          }
+          var articles = snapshot.data?.articles ?? [];
+          return Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 50,
+              ),
+              itemBuilder: (context, index) {
+                return NewsItem(article: articles[index]);
+              },
+              itemCount: articles.length,
+            ),
+          );
+        },
+      );
+    }
+    return Container();
   }
-
-  // No changes needed in buildActions and buildLeading methods
 
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
+    if(query.isNotEmpty){
+      return FutureBuilder(
+        future: ApiManager.SearchArticles(query),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return const Text("SomeThing Went Wrong");
+          }
 
-    for (var fruit in fruitList) {
-      if (fruit.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(fruit);
-      }
+          var articles = snapshot.data?.articles ?? [];
+          return Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(
+                height: 12,
+              ),
+              itemBuilder: (context, index) {
+                return NewsItem(article: articles[index]);
+              },
+              itemCount: articles.length,
+            ),
+          );
+        },
+      );
     }
-
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(matchQuery[index]),
-        );
-      },
-    );
+    return Container();
   }
 
   @override
@@ -46,9 +66,9 @@ class CustomSearch extends SearchDelegate {
     return [
       IconButton(
         onPressed: () {
-          query = '';
+          showResults(context);
         },
-        icon: const Icon(Icons.clear),
+        icon: const Icon(Icons.search),
       ),
     ];
   }
@@ -57,9 +77,38 @@ class CustomSearch extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
-        close(context, null);
+        Navigator.pop(context);
       },
-      icon: const Icon(Icons.arrow_back),
+      icon: const Icon(Icons.close),
+    );
+  }
+
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return ThemeData(
+      primaryColor: const Color(0xFF39A552),
+      scaffoldBackgroundColor: Colors.white,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Color(0xFF39A552),
+        centerTitle: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+          ),
+        ),
+      ),
+      iconButtonTheme: const IconButtonThemeData(
+        style: ButtonStyle(
+          iconSize: MaterialStatePropertyAll(30),
+          iconColor: MaterialStatePropertyAll(Colors.white),
+        ),
+      ),
+      textTheme: const TextTheme(
+        bodyLarge: TextStyle(
+            color: Colors.white, fontSize: 25, fontWeight: FontWeight.w500),
+      ),
+      hintColor: Colors.white,
     );
   }
 }
