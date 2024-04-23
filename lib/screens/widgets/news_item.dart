@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/models/NewsDataModel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsItem extends StatelessWidget {
   Articles article;
@@ -12,19 +13,20 @@ class NewsItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18), color: Colors.grey.shade200
-      ),
+          borderRadius: BorderRadius.circular(18), color: Colors.grey.shade200),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(18),
             child: CachedNetworkImage(
-              imageUrl: article.urlToImage??"",
+              imageUrl: article.urlToImage ?? "",
               height: 250,
               fit: BoxFit.fill,
               progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                  Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress)),
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),

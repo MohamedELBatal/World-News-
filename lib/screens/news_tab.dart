@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/models/SourceResponse.dart';
 import 'package:news_app/screens/widgets/news_item.dart';
+import 'package:news_app/screens/widgets/source_item.dart';
 import 'package:news_app/shared/network/remote/api_manager.dart';
-
-import 'widgets/source_item.dart';
 
 class NewsTab extends StatefulWidget {
   List<Sources> sources;
 
-  NewsTab({required this.sources, super.key});
+  NewsTab({super.key, required this.sources});
 
   @override
   State<NewsTab> createState() => _NewsTabState();
@@ -22,49 +21,60 @@ class _NewsTabState extends State<NewsTab> {
     return Column(
       children: [
         DefaultTabController(
-          length: widget.sources.length,
-          child: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.transparent,
-            dividerColor: Colors.transparent,
-            onTap: (value) {
-              selectedIndex = value;
-              setState(() {
-
-              });
-            },
-            tabs: widget.sources
-                .map(
-                  (e) => Tab(
-                    child: SourceItem(
-                      source: e,
-                      selected: widget.sources.elementAt(selectedIndex) == e,
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-        FutureBuilder(future: ApiManager.getNewsData(widget.sources[selectedIndex].id??""),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) {
-                return const Text("SomeThing Went Wrong");
-              }
-
-              var articles = snapshot.data?.articles??[];
-              return Expanded(
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 12,),
-                  itemBuilder: (context, index) {
-                  return NewsItem(article:  articles[index]);
-                },
-                itemCount: articles.length,
+            length: widget.sources.length,
+            child: TabBar(
+              dividerColor: Colors.transparent,
+              isScrollable: true,
+              onTap: (value) {
+                setState(() {});
+                selectedIndex = value;
+              },
+              indicatorColor: Colors.transparent,
+              tabs: widget.sources
+                  .map((e) => Tab(
+                child: SourceItem(
+                  source: e,
+                  selected:
+                  widget.sources.elementAt(selectedIndex) == e,
                 ),
-              );
-            },),
+              ))
+                  .toList(),
+            )),
+        FutureBuilder(
+          future:
+          ApiManager.getNewsData(widget.sources[selectedIndex].id ?? ""),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.green,
+                  ));
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text("Something went wrong"));
+            }
+
+            var articlesList = snapshot.data?.articles ?? [];
+            if (articlesList.isEmpty) {
+              return Center(child: Text("No SOurces"));
+            }
+            return Expanded(
+              child: ListView.separated(
+
+                separatorBuilder: (context, index) => SizedBox(
+                  height: 12,
+                ),
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: NewsItem(article: articlesList[index]),
+                  );
+                },
+                itemCount: articlesList.length,
+              ),
+            );
+          },
+        )
       ],
     );
   }

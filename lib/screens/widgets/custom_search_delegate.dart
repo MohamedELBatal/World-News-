@@ -5,6 +5,7 @@ import 'package:news_app/shared/network/remote/api_manager.dart';
 class CustomSearch extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
+    print("in Search");
     if(query.isNotEmpty){
       return FutureBuilder(
         future: ApiManager.SearchArticles(query),
@@ -13,16 +14,20 @@ class CustomSearch extends SearchDelegate {
             return const Text("SomeThing Went Wrong");
           }
           var articles = snapshot.data?.articles ?? [];
-          return Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(
-                height: 50,
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: 12,
+                  ),
+                  itemBuilder: (context, index) {
+                    return NewsItem(article: articles[index]);
+                  },
+                  itemCount: articles.length,
+                ),
               ),
-              itemBuilder: (context, index) {
-                return NewsItem(article: articles[index]);
-              },
-              itemCount: articles.length,
-            ),
+            ],
           );
         },
       );

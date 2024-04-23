@@ -39,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.white),
           centerTitle: true,
-          title: _isSearching
-              ? buildSearchField()
-              : Text(
+          title: Text(
                   categoryModel == null ? "News" : categoryModel!.title,
                   style: GoogleFonts.exo(
                     fontSize: 30,
